@@ -21,5 +21,14 @@ spec:
                 secretKeyRef:
                   name: postgres-password
                   key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: seccamp
           ports:
             - containerPort: 5432
+          volumeMounts:
+          - name: sql-volume
+            mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: sql-volume
+          configMap:
+            name: sql-config # kubectl create configmap sql-config --from-file=./misc/sql/
